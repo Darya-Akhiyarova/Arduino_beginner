@@ -1,7 +1,8 @@
 # Arduino_beginner
 Код и схемы
 
-## 1
+## SENSORS 
+```
 void setup() {
   Serial.begin(9600);
   Serial.println("Hello");
@@ -27,5 +28,63 @@ void loop() {
   Serial.print("Ptr: ");
   Serial.println(ptrn);
 }
+```
+## 2 Светофор
+```
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Hello");
+  pinMode(7, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(4, OUTPUT);
+}
 
-## 2
+void loop() {
+  
+  digitalWrite (7, HIGH);
+  delay(500);
+  digitalWrite (7, LOW);
+  delay(200);
+  digitalWrite (6, HIGH);
+  delay(500);
+  digitalWrite (6, LOW);
+  delay(200);
+  digitalWrite (4, HIGH);
+  delay(500);
+  digitalWrite (4, LOW);
+  delay(200);
+}
+```
+## BUTTON
+
+```
+#define BTN 9
+#define LED1 7
+#define LED2 6
+#define LED3 4
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+  pinMode(BTN, INPUT);
+}
+
+void loop() {
+  
+  int btnVal = digitalRead(BTN);
+
+  if(btnVal == 0){
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, HIGH);
+    digitalWrite(LED3, HIGH);
+  }
+  else{
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, LOW);
+    digitalWrite(LED3, LOW);
+  }
+
+}
+```
