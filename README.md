@@ -267,6 +267,158 @@ void loop() {
   delay(15);                           // waits for the servo to get there
 }
 ```
-## Motors
+## Motors and IR Receive
 [Motor Shield](http://wiki.amperka.ru/%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D1%8B:arduino-motor-shield)
 ```C++
+#include <IRremote.hpp>
+
+#define IR_RECEIVE_PIN 8
+#define IR_BUTTON_PLUS 21
+#define IR_BUTTON_MINUS 7
+#define IR_BUTTON_1 12
+#define IR_BUTTON_2 24
+#define IR_BUTTON_3 94
+
+#define SPEED_1      5 
+#define DIR_1        4
+ 
+#define SPEED_2      6
+#define DIR_2        7
+
+void setup(){
+  Serial.begin(9600);
+  IrReceiver.begin(IR_RECEIVE_PIN);
+
+  for (int i = 4; i < 8; i++) {     
+    pinMode(i, OUTPUT);
+  }
+}
+
+void loop(){
+   if (IrReceiver.decode()) {
+      IrReceiver.resume(); // Enable receiving of the next value
+      int command = IrReceiver.decodedIRData.command;
+      
+      switch (command) {
+        case IR_BUTTON_PLUS: {
+          digitalWrite(DIR_1, LOW); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, LOW); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_MINUS: {
+          digitalWrite(DIR_1, HIGH); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, HIGH); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_1: { // stop mototrs
+          digitalWrite(DIR_1, HIGH); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, LOW); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_2: { 
+          digitalWrite(DIR_1, LOW); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, HIGH); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+          
+          break;
+        }
+        case IR_BUTTON_3: { // stop mototrs
+          analogWrite(SPEED_1, 0); 
+          analogWrite(SPEED_2, 0);  
+          break;
+        }
+      }
+  }
+}
+```
+## Джойстик
+```C++
+#include <IRremote.hpp>
+
+#define IR_RECEIVE_PIN 8
+#define IR_BUTTON_PLUS 21
+#define IR_BUTTON_MINUS 7
+#define IR_BUTTON_1 12
+#define IR_BUTTON_2 24
+#define IR_BUTTON_3 94
+
+#define SPEED_1      5 
+#define DIR_1        4
+ 
+#define SPEED_2      6
+#define DIR_2        7
+
+void setup(){
+  Serial.begin(9600);
+  IrReceiver.begin(IR_RECEIVE_PIN);
+
+  for (int i = 4; i < 8; i++) {     
+    pinMode(i, OUTPUT);
+  }
+}
+
+void loop(){
+   if (IrReceiver.decode()) {
+      IrReceiver.resume(); // Enable receiving of the next value
+      int command = IrReceiver.decodedIRData.command;
+      
+      switch (command) {
+        case IR_BUTTON_PLUS: {
+          digitalWrite(DIR_1, LOW); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, LOW); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_MINUS: {
+          digitalWrite(DIR_1, HIGH); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, HIGH); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_1: { // stop mototrs
+          digitalWrite(DIR_1, HIGH); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, LOW); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+
+          break;
+        }
+        case IR_BUTTON_2: { 
+          digitalWrite(DIR_1, LOW); // set direction
+          analogWrite(SPEED_1, 255); // set speed
+
+          digitalWrite(DIR_2, HIGH); // set direction
+          analogWrite(SPEED_2, 255); // set speed
+          
+          break;
+        }
+        case IR_BUTTON_3: { // stop mototrs
+          analogWrite(SPEED_1, 0); 
+          analogWrite(SPEED_2, 0);  
+          break;
+        }
+      }
+  }
+}
+```
